@@ -1,0 +1,59 @@
+﻿<Page
+    x:Class="SimpleTingXie.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:SimpleTingXie"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        
+        <StackPanel>
+            
+            <TextBox ScrollViewer.IsHorizontalRailEnabled="False"
+                     ScrollViewer.IsVerticalRailEnabled="True"
+                     ScrollViewer.VerticalScrollBarVisibility="Visible"
+                     MaxHeight="100"
+                     x:Name="WordsInput"
+                     TextWrapping="Wrap"
+                     >
+            
+            </TextBox>
+            <TextBlock Text="使用空格分隔词语, 可以在字后面加入(拼音+声调)改变字音, 例如蚌(beng4)埠"
+                       TextWrapping="Wrap"
+                       Foreground="Gray"
+                       HorizontalAlignment="Right">
+                
+            </TextBlock>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="选择语速"
+                           VerticalAlignment="Center"
+                           ></TextBlock>
+                
+                <TextBox Text="5"
+                         VerticalAlignment="Stretch"
+                         HorizontalAlignment="Stretch"></TextBox>
+            </StackPanel>
+            <Button Name="TalkButton"
+                    Content="听写!"
+                    Click="TalkButton_Click"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Bottom"
+                             >
+                
+            </Button>
+            <Button Name="Clear"
+                    Content="清空"
+                    Click="Clear_Click"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Bottom"
+                    >
+            
+               
+            </Button>
+        </StackPanel>
+    </Grid>
+</Page>

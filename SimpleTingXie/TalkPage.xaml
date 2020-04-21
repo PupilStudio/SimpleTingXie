@@ -1,0 +1,67 @@
+﻿<Page
+    x:Class="SimpleTingXie.TalkPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:SimpleTingXie"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <Button Style="{StaticResource NavigationBackButtonNormalStyle}"
+                VerticalAlignment="Top"
+                HorizontalAlignment="Left"
+                x:Name="BackButton"
+                Click="Back_Click"
+                />
+        <StackPanel>
+            <TextBlock Text="当前没有词语.共0个词语."
+                       HorizontalAlignment="Center"
+                       
+                       FontSize="30"
+                       x:Name="BlockWords"></TextBlock>
+            <Button x:Name="ButtonRepeat"
+                    Content="再听一次"
+                    HorizontalAlignment="Stretch"
+                    Click="ButtonRepeat_Click">
+                
+            </Button>
+            <Button x:Name="ButtonNext"
+                    Content="下一个词语"
+                    HorizontalAlignment="Stretch"
+                    Click="ButtonNext_Click">
+            </Button>
+            <Button x:Name="ButtonPrev"
+                    Content="上一个词语"
+                    HorizontalAlignment="Stretch"
+                    IsEnabled="False"
+                    Click="ButtonPrev_Click"></Button>
+            
+            <MediaElement x:Name="MediaElem"
+                          AutoPlay="True"
+                          HorizontalAlignment="Stretch">
+                
+            </MediaElement>
+            <TextBlock x:Name="BlockCurWordsTip"
+                       Text="刚才听写了这些词语"
+                       HorizontalAlignment="Center"
+                       Visibility="Collapsed"
+                       FontSize="30">
+                
+            </TextBlock>
+            <TextBlock x:Name="BlockKeys"
+                       Visibility="Collapsed"
+                       HorizontalAlignment="Center"
+                       FontSize="20"
+                       TextWrapping="Wrap">
+
+            </TextBlock>
+            <Button x:Name="ButtonReturn"
+                    Content="退出听写"
+                    HorizontalAlignment="Stretch"
+                    Click="Back_Click"></Button>
+        </StackPanel>
+        
+    </Grid>
+</Page>
