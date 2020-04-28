@@ -28,15 +28,10 @@
                        HorizontalAlignment="Right">
                 
             </TextBlock>
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="选择语速"
-                           VerticalAlignment="Center"
-                           ></TextBlock>
+            <TextBox x:Name="Speed"
+                     PlaceholderText="输入1~15之间的整数语速, 默认为5">
                 
-                <TextBox Text="5"
-                         VerticalAlignment="Stretch"
-                         HorizontalAlignment="Stretch"></TextBox>
-            </StackPanel>
+            </TextBox>
             <Button Name="TalkButton"
                     Content="听写!"
                     Click="TalkButton_Click"

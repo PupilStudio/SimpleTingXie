@@ -27,6 +27,12 @@
                     Click="ButtonRepeat_Click">
                 
             </Button>
+            <Button x:Name="ButtonStop"
+                    Content="停止当前播放"
+                    HorizontalAlignment="Stretch"
+                    Click="StopPlay_Click">
+                
+            </Button>
             <Button x:Name="ButtonNext"
                     Content="下一个词语"
                     HorizontalAlignment="Stretch"

@@ -36,7 +36,16 @@ namespace SimpleTingXie
 
         private void TalkButton_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(TalkPage), this.WordsInput.Text);
+            TalkArgs args = new TalkArgs();
+            args.Words = this.WordsInput.Text;
+            args.SplitChar = ' ';
+
+            if (!int.TryParse(this.Speed.Text, out args.Speed) || args.Speed < 1 || args.Speed > 15)
+            {
+                args.Speed = 5;
+            }
+
+            Frame.Navigate(typeof(TalkPage), args);
         }
 
         private void Clear_Click(object sender, RoutedEventArgs e)

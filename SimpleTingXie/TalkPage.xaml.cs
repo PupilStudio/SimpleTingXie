@@ -38,10 +38,10 @@ namespace SimpleTingXie
         string wordsRefer = "Oops!程序出现了亿些问题";
         int voicesIndex = 0;
 
-        async Task<bool> ProcessTTSAPI(string words)
+        async Task<bool> ProcessTTSAPI(TalkArgs args)
         {
-            wordsRefer = words;
-            string[] vs = words.Split(' ');
+            wordsRefer = args.Words;
+            string[] vs = args.Words.Split(' ');
             //Baidu.Aip.Speech.TtsResponse[] resps = new Baidu.Aip.Speech.TtsResponse[0];
             voices = new List<string>();
             voicesIndex = 0;
@@ -60,24 +60,30 @@ namespace SimpleTingXie
             Directory.CreateDirectory(
                 Path.Combine(ApplicationData.Current.TemporaryFolder.Path, "Voices"));
 
-            
+            int cnt = 0;
             foreach (var i in vs)
             {
+                ++cnt;
+                BlockWords.Text = "正在生成第" + cnt.ToString() + "个词语...";
+                if (i == "")
+                    continue;
                 var resp = await
                     new HttpClient()
                     .GetAsync("https://tsn.baidu.com/text2audio?lan=zh&ctp=1&cuid=DeepDarkFantasy&tok=" 
                     + token 
                     + "&tex=" + Uri.EscapeDataString(Uri.EscapeDataString(i))
-                    + "&aue=6");
+                    + "&aue=6"
+                    + "&spd=" + args.Speed.ToString());
                 
                 Debug.WriteLine("https://tsn.baidu.com/text2audio?lan=zh&ctp=1&cuid=DeepDarkFantasy&tok="
                     + token
                     + "&tex=" + Uri.EscapeDataString(Uri.EscapeDataString(i))
-                    + "&aue=6&vol=10&spd=3");
+                    + "&aue=6"
+                    + "&spd=" + args.Speed.ToString());
 
                 if (resp.Content.Headers.ContentType.MediaType != "audio/wav")
                 {
-                    Debug.Assert(false);
+                    //Debug.Assert(false);
                     BlockWords.Text = "Oops!这个软件出现了亿些问题......";
                     Debug.WriteLine(await resp.Content.ReadAsStringAsync());
                     return false;
@@ -87,6 +93,8 @@ namespace SimpleTingXie
                     Path.Combine(ApplicationData.Current.TemporaryFolder.Path, "Voices", wordId + ".wav"),
                     await resp.Content.ReadAsByteArrayAsync());
                 voices.Add(Path.Combine(ApplicationData.Current.TemporaryFolder.Path, "Voices", wordId + ".wav"));
+
+                System.Threading.Thread.Sleep(100);
             }
             return true;
         }
@@ -115,7 +123,7 @@ namespace SimpleTingXie
             {
                 ButtonPrev.IsEnabled = false;
                 ButtonNext.IsEnabled = true;
-                ButtonRepeat.Visibility = 
+                ButtonRepeat.Visibility = ButtonStop.Visibility =
                 ButtonPrev.Visibility = ButtonNext.Visibility = BlockWords.Visibility = Visibility.Visible;
                 ButtonNext.Content = "下一个词语";
             } else if (voicesIndex == voices.Count - 1)
@@ -123,12 +131,12 @@ namespace SimpleTingXie
                 ButtonPrev.IsEnabled = true;
                 ButtonNext.IsEnabled = true;
                 ButtonNext.Content = "完成";
-                ButtonRepeat.Visibility =
+                ButtonRepeat.Visibility = ButtonStop.Visibility =
                 ButtonPrev.Visibility = ButtonNext.Visibility = BlockWords.Visibility = Visibility.Visible;
                 BlockWords.Text = "最后一个词语, 共" + voices.Count.ToString() + "个词语";
             } else if (voicesIndex == voices.Count)
             {
-                ButtonRepeat.Visibility =
+                ButtonRepeat.Visibility = ButtonStop.Visibility =
                 ButtonPrev.Visibility = ButtonNext.Visibility = BlockWords.Visibility = Visibility.Collapsed;
                 BlockKeys.Visibility = BlockCurWordsTip.Visibility = Visibility.Visible;
                 BlockKeys.Text = wordsRefer;
@@ -137,7 +145,7 @@ namespace SimpleTingXie
             {
                 ButtonPrev.IsEnabled = ButtonNext.IsEnabled = true;
                 ButtonNext.Content = "下一个词语";
-                ButtonRepeat.Visibility =
+                ButtonRepeat.Visibility = ButtonStop.Visibility =
                 ButtonPrev.Visibility = ButtonNext.Visibility = BlockWords.Visibility = Visibility.Visible;
             }
         }
@@ -155,8 +163,10 @@ namespace SimpleTingXie
         {
             BackButton.IsEnabled = this.Frame.CanGoBack;
             BlockWords.Text = "正在初始化......";
+            ButtonStop.IsEnabled =
             ButtonNext.IsEnabled = ButtonPrev.IsEnabled = ButtonRepeat.IsEnabled = false;
-            await ProcessTTSAPI(e.Parameter.ToString());
+            await ProcessTTSAPI((TalkArgs)e.Parameter);
+            ButtonStop.IsEnabled =
             ButtonNext.IsEnabled = ButtonPrev.IsEnabled = ButtonRepeat.IsEnabled = true;
             InitUI();
             PlayCurrent();
@@ -201,6 +211,11 @@ namespace SimpleTingXie
         private void ButtonRepeat_Click(object sender, RoutedEventArgs e)
         {
             PlayCurrent();
+        }
+
+        private void StopPlay_Click(object sender, RoutedEventArgs e)
+        {
+            MediaElem.Stop();
         }
     }
 }
