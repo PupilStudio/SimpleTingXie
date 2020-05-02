@@ -41,8 +41,8 @@
                              FontSize="20"></HyperlinkButton>
             <HyperlinkButton Content="访问pupilstudio的站点"
                              HorizontalAlignment="Center"
-                             NavigateUri="http://pupilstudio.club/"
-                             FontSize="20"></HyperlinkButton>
+                             FontSize="20"
+                             NavigateUri="http://pupilstudio.club"></HyperlinkButton>
             <HyperlinkButton Content="在GitHub上提交反馈"
                              HorizontalAlignment="Center"
                              FontSize="20"
