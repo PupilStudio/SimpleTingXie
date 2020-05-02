@@ -43,6 +43,12 @@
                              HorizontalAlignment="Center"
                              NavigateUri="http://pupilstudio.club/"
                              FontSize="20"></HyperlinkButton>
+            <HyperlinkButton Content="在GitHub上提交反馈"
+                             HorizontalAlignment="Center"
+                             FontSize="20"
+                             NavigateUri="https://github.com/PupilStudio/SimpleTingXie/issues">
+                
+            </HyperlinkButton>
             <HyperlinkButton Content="给作者发邮件以进行反馈"
                              FontSize="20"
                              HorizontalAlignment="Center"
