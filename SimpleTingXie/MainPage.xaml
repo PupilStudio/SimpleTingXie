@@ -56,7 +56,7 @@
             <CheckBox x:Name="CheckRandomSort"
                       Content="随机打乱词语"></CheckBox>
             <CheckBox x:Name="CheckEnableAutoNext"
-                      Content="启用自动切换词语"
+                      Content="启用自动切换到下一个词语"
                       Checked="CheckEnableAutoNext_Checked">                    
             </CheckBox>
             <TextBox x:Name="TextAutoNextTimes"

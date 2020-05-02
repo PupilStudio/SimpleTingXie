@@ -47,9 +47,11 @@
                              FontSize="20"
                              HorizontalAlignment="Center"
                              NavigateUri="mailto:pupilstudio@outlook.com"></HyperlinkButton>
-            <!--<HyperlinkButton Content="捐助pupilstudio以让这个程序在应用商店上架"
+            <HyperlinkButton Content="捐助pupilstudio以让这个程序在应用商店上架"
                              FontSize="20"
-                             NavigateUri="https://afdian.net/@SimpleTingXie"></HyperlinkButton>-->
+                             HorizontalAlignment="Center"
+                             NavigateUri="https://afdian.net/@SimpleTingXie">
+            </HyperlinkButton>
         </StackPanel>
     </Grid>
 </Page>

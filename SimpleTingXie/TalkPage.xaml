@@ -72,6 +72,11 @@
                     Content="退出听写"
                     HorizontalAlignment="Stretch"
                     Click="Back_Click"></Button>
+            <Button x:Name="ButtonOK"
+                    Content="我准备好了,开始听写!"
+                    HorizontalAlignment="Stretch"
+                    Click="ButtonOK_Click"
+                    Visibility="Collapsed"></Button>
         </StackPanel>
         
     </Grid>

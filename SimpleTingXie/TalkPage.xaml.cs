@@ -47,6 +47,7 @@ namespace SimpleTingXie
         bool disableRepeat, disableGoback;
         int secs;
         bool randSort;
+        TalkArgs args;
 
         string RemoveSound(string word)
         {
@@ -237,24 +238,17 @@ namespace SimpleTingXie
             voicesIndex = 0;
 
             StackWrongs.Children.Clear();
-
+            ButtonOK.Visibility = Visibility.Collapsed;
             BackButton.IsEnabled = this.Frame.CanGoBack;
             BlockWords.Text = "正在初始化......";
             ButtonStop.IsEnabled =
             ButtonNext.IsEnabled = ButtonPrev.IsEnabled = ButtonRepeat.IsEnabled = false;
             randSort = ((TalkArgs)e.Parameter).RandomSort;
             await ProcessTTSAPI((TalkArgs)e.Parameter);
-            ButtonStop.IsEnabled =
-            ButtonNext.IsEnabled = ButtonPrev.IsEnabled = ButtonRepeat.IsEnabled = true;
+            BlockWords.Text = "初始化完成!你准备好了吗?";
+            ButtonOK.Visibility = Visibility.Visible;
 
-            disableRepeat = ((TalkArgs)e.Parameter).DisableRepeat;
-            disableGoback = ((TalkArgs)e.Parameter).DisableBackward;
-            autoNext = ((TalkArgs)e.Parameter).AutoNext;
-            secs = ((TalkArgs)e.Parameter).AutoNextSeconds;            
-
-            InitAutoNextTimers();
-            InitUI();
-            PlayCurrent();
+            args = ((TalkArgs)e.Parameter);            
         }
 
         private void Back_Click(object sender, RoutedEventArgs e)
@@ -299,6 +293,22 @@ namespace SimpleTingXie
 
         private void ButtonRepeat_Click(object sender, RoutedEventArgs e)
         {
+            PlayCurrent();
+        }
+
+        private void ButtonOK_Click(object sender, RoutedEventArgs e)
+        {
+            ButtonOK.Visibility = Visibility.Collapsed;
+            ButtonStop.IsEnabled =
+            ButtonNext.IsEnabled = ButtonPrev.IsEnabled = ButtonRepeat.IsEnabled = true;
+
+            disableRepeat = args.DisableRepeat;
+            disableGoback = args.DisableBackward;
+            autoNext = args.AutoNext;
+            secs = args.AutoNextSeconds;
+
+            InitAutoNextTimers();
+            InitUI();
             PlayCurrent();
         }
 
