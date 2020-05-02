@@ -42,8 +42,25 @@ namespace SimpleTingXie
 
             if (!int.TryParse(this.Speed.Text, out args.Speed) || args.Speed < 1 || args.Speed > 15)
             {
-                args.Speed = 5;
+                args.Speed = 4;
             }
+
+            args.DisableBackward = ((CheckDisableGoback.IsChecked == null
+                ? false 
+                : (bool)(CheckDisableGoback.IsChecked)));
+            args.DisableRepeat = ((CheckDisableReplay.IsChecked == null
+                ? false
+                : (bool)(CheckDisableReplay.IsChecked)));
+            args.AutoNext = ((CheckEnableAutoNext.IsChecked == null
+                ? false
+                : (bool)(CheckEnableAutoNext.IsChecked)));
+
+            if (!int.TryParse(this.TextAutoNextTimes.Text, out args.AutoNextSeconds) || args.Speed < 1)
+            {
+                args.AutoNextSeconds = 20;
+            }
+
+            
 
             Frame.Navigate(typeof(TalkPage), args);
         }
@@ -51,6 +68,12 @@ namespace SimpleTingXie
         private void Clear_Click(object sender, RoutedEventArgs e)
         {
             WordsInput.Text = "";
+        }
+
+        private void CheckEnableAutoNext_Checked(object sender, RoutedEventArgs e)
+        {
+            CheckDisableGoback.IsChecked = true;
+            CheckDisableReplay.IsChecked = true;
         }
     }
 }

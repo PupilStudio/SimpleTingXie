@@ -29,7 +29,7 @@
                 
             </TextBlock>
             <TextBox x:Name="Speed"
-                     PlaceholderText="输入1~15之间的整数语速, 默认为5">
+                     PlaceholderText="输入1(最慢)~15(最快)之间的整数语速, 默认为4">
                 
             </TextBox>
             <Button Name="TalkButton"
@@ -46,9 +46,21 @@
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Bottom"
                     >
-            
-               
             </Button>
+            <CheckBox x:Name="CheckDisableReplay"
+                      Content="禁用&quot;再听一次&quot;"
+                      ></CheckBox>
+            <CheckBox x:Name="CheckDisableGoback"
+                      Content="禁用&quot;返回上一个词语&quot;"
+                      ></CheckBox>
+            <CheckBox x:Name="CheckEnableAutoNext"
+                      Content="启用自动切换词语"
+                      Checked="CheckEnableAutoNext_Checked">                    
+            </CheckBox>
+            <TextBox x:Name="TextAutoNextTimes"
+                         PlaceholderText="自动切换词语的时长(秒),默认为20秒"
+                         HorizontalAlignment="Stretch"
+                    ></TextBox>
         </StackPanel>
     </Grid>
 </Page>

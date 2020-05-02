@@ -24,6 +24,8 @@ using System.Data;
 using Newtonsoft.Json.Linq;
 using System.Diagnostics;
 using Windows.Storage;
+using Windows.System.Threading;
+using Windows.ApplicationModel.Activation;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
 
@@ -35,9 +37,18 @@ namespace SimpleTingXie
     public sealed partial class TalkPage : Page
     {
         List<string> voices = null;
+        ThreadPoolTimer currentTimer = null;
         string wordsRefer = "Oops!程序出现了亿些问题";
         int voicesIndex = 0;
+        bool autoNext;
+        bool disableRepeat, disableGoback;
+        int secs;
 
+        void Delay(long millSecond)
+        {
+            long end = System.DateTime.UtcNow.Millisecond + millSecond;
+            while (System.DateTime.UtcNow.Millisecond < end) ;
+        }
         async Task<bool> ProcessTTSAPI(TalkArgs args)
         {
             wordsRefer = args.Words;
@@ -94,7 +105,7 @@ namespace SimpleTingXie
                     await resp.Content.ReadAsByteArrayAsync());
                 voices.Add(Path.Combine(ApplicationData.Current.TemporaryFolder.Path, "Voices", wordId + ".wav"));
 
-                System.Threading.Thread.Sleep(100);
+                new System.Threading.ManualResetEvent(false).WaitOne(100);
             }
             return true;
         }
@@ -148,6 +159,10 @@ namespace SimpleTingXie
                 ButtonRepeat.Visibility = ButtonStop.Visibility =
                 ButtonPrev.Visibility = ButtonNext.Visibility = BlockWords.Visibility = Visibility.Visible;
             }
+            if (disableRepeat)
+                ButtonRepeat.IsEnabled = false;
+            if (disableGoback)
+                ButtonPrev.IsEnabled = false;
         }
         void PlayCurrent()
         {
@@ -159,8 +174,30 @@ namespace SimpleTingXie
             MediaElem.Play();
         }
 
+        void InitAutoNextTimers()
+        {
+            if (!autoNext)
+                return;
+            TimeSpan ts = TimeSpan.FromSeconds(secs);
+            if (currentTimer != null)
+                currentTimer.Cancel();
+            currentTimer = ThreadPoolTimer.CreateTimer(
+                async (source) => {
+                    await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High,
+                    () =>
+                    {
+                        ButtonNext_Click(null, null);
+                    });
+                }, ts);
+        }
+
         protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
+            currentTimer = null;
+            voices = null;
+            wordsRefer = "Oops!程序出现了亿些问题";
+            voicesIndex = 0;
+
             BackButton.IsEnabled = this.Frame.CanGoBack;
             BlockWords.Text = "正在初始化......";
             ButtonStop.IsEnabled =
@@ -168,6 +205,13 @@ namespace SimpleTingXie
             await ProcessTTSAPI((TalkArgs)e.Parameter);
             ButtonStop.IsEnabled =
             ButtonNext.IsEnabled = ButtonPrev.IsEnabled = ButtonRepeat.IsEnabled = true;
+
+            disableRepeat = ((TalkArgs)e.Parameter).DisableRepeat;
+            disableGoback = ((TalkArgs)e.Parameter).DisableBackward;
+            autoNext = ((TalkArgs)e.Parameter).AutoNext;
+            secs = ((TalkArgs)e.Parameter).AutoNextSeconds;
+
+            InitAutoNextTimers();
             InitUI();
             PlayCurrent();
         }
@@ -182,6 +226,8 @@ namespace SimpleTingXie
         {
             if (this.Frame.CanGoBack)
             {
+                if (currentTimer != null)
+                    currentTimer.Cancel();
                 this.Frame.GoBack();
                 return true;
             }
@@ -197,6 +243,7 @@ namespace SimpleTingXie
         private void ButtonNext_Click(object sender, RoutedEventArgs e)
         {
             ++voicesIndex;
+            InitAutoNextTimers();
             InitUI();
             PlayCurrent();
         }
@@ -204,6 +251,7 @@ namespace SimpleTingXie
         private void ButtonPrev_Click(object sender, RoutedEventArgs e)
         {
             --voicesIndex;
+            InitAutoNextTimers();
             InitUI();
             PlayCurrent();
         }
