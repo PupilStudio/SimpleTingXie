@@ -87,5 +87,10 @@ namespace SimpleTingXie
             CheckDisableGoback.IsChecked = true;
             CheckDisableReplay.IsChecked = true;
         }
+
+        private void ButtonAbout_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(AboutPage), new object());
+        }
     }
 }

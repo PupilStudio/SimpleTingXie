@@ -1,0 +1,55 @@
+﻿<Page
+    x:Class="SimpleTingXie.AboutPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:SimpleTingXie"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <Button Name="ReturnButton" 
+                Click="Back_Click"
+                VerticalAlignment="Top"
+                HorizontalAlignment="Left"
+                Style="{StaticResource NavigationBackButtonNormalStyle}"/>
+        <StackPanel>
+            <TextBlock Text="关于..."
+                       FontSize="30"
+                       HorizontalAlignment="Center"></TextBlock>
+            <TextBlock Text="简单听写, 让你的听写更简单。这个程序可以帮助你进行听写。"
+                       HorizontalAlignment="Center"
+                       TextAlignment="Center"
+                       TextWrapping="WrapWholeWords"
+                       FontSize="20"></TextBlock>
+            <HyperlinkButton Content="本程序使用百度文字转语音服务。"
+                             HorizontalAlignment="Center"
+                             FontSize="20"
+                             NavigateUri="https://ai.baidu.com/tech/speech/tts_online"></HyperlinkButton>
+            <TextBlock Text="本程序使用LGPL v3协议进行开源。"
+                       FontSize="20"></TextBlock>
+            <HyperlinkButton Content="在GitHub上查看代码"
+                             FontSize="20"
+                             HorizontalAlignment="Center"
+                             NavigateUri="https://github.com/PupilStudio/SimpleTingXie"></HyperlinkButton>
+            <TextBlock Text="作者:pupilstudio"
+                       FontSize="25"></TextBlock>
+            <HyperlinkButton Content="查看pupilstudio的GitHub主页"
+                             HorizontalAlignment="Center"
+                             NavigateUri="https://github.com/PupilStudio"
+                             FontSize="20"></HyperlinkButton>
+            <HyperlinkButton Content="访问pupilstudio的站点"
+                             HorizontalAlignment="Center"
+                             NavigateUri="http://pupilstudio.club/"
+                             FontSize="20"></HyperlinkButton>
+            <HyperlinkButton Content="给作者发邮件以进行反馈"
+                             FontSize="20"
+                             HorizontalAlignment="Center"
+                             NavigateUri="mailto:pupilstudio@outlook.com"></HyperlinkButton>
+            <!--<HyperlinkButton Content="捐助pupilstudio以让这个程序在应用商店上架"
+                             FontSize="20"
+                             NavigateUri="https://afdian.net/@SimpleTingXie"></HyperlinkButton>-->
+        </StackPanel>
+    </Grid>
+</Page>

@@ -64,5 +64,10 @@
                          HorizontalAlignment="Stretch"
                     ></TextBox>
         </StackPanel>
+        <Button x:Name="ButtonAbout"
+                Click="ButtonAbout_Click"
+                VerticalAlignment="Bottom"
+                HorizontalAlignment="Stretch"
+                Content="关于"></Button>
     </Grid>
 </Page>
