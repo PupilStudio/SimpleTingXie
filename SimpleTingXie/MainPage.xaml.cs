@@ -34,8 +34,19 @@ namespace SimpleTingXie
             //WordsInput.TextWrapping = TextWrapping.WrapWholeWords;
         }
 
-        private void TalkButton_Click(object sender, RoutedEventArgs e)
+        private async void TalkButton_Click(object sender, RoutedEventArgs e)
         {
+            if (WordsInput.Text.Trim() == "")
+            {
+                ContentDialog dialog = new ContentDialog()
+                {
+                    Title = "您没有输入词语!",
+                    CloseButtonText = "去输入"
+                };
+                await dialog.ShowAsync();
+                return;
+            }
+
             TalkArgs args = new TalkArgs();
             args.Words = this.WordsInput.Text;
             args.SplitChar = ' ';

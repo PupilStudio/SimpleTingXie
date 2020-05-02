@@ -26,6 +26,7 @@ using Newtonsoft.Json.Linq;
 using System.Diagnostics;
 using Windows.Storage;
 using Windows.System.Threading;
+using System.Text.RegularExpressions;
 using Windows.ApplicationModel.Activation;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
@@ -40,12 +41,18 @@ namespace SimpleTingXie
         List<string> voices = null;
         ThreadPoolTimer currentTimer = null;
         string wordsRefer = "Oops!程序出现了亿些问题";
+        string[] vs;
         int voicesIndex = 0;
         bool autoNext;
         bool disableRepeat, disableGoback;
         int secs;
         bool randSort;
 
+        string RemoveSound(string word)
+        {
+            StringBuilder builder = new StringBuilder();
+            return "";
+        }
         void Delay(long millSecond)
         {
             long end = System.DateTime.UtcNow.Millisecond + millSecond;
@@ -56,7 +63,7 @@ namespace SimpleTingXie
         async Task<bool> ProcessTTSAPI(TalkArgs args)
         {
             wordsRefer = args.Words;
-            string[] vs = args.Words.Split(' ');
+            vs = args.Words.Split(' ');
 
             if (randSort)
             {
@@ -173,6 +180,15 @@ namespace SimpleTingXie
                 ButtonPrev.Visibility = ButtonNext.Visibility = BlockWords.Visibility = Visibility.Collapsed;
                 BlockKeys.Visibility = BlockCurWordsTip.Visibility = Visibility.Visible;
                 BlockKeys.Text = wordsRefer;
+
+                //foreach (var i in vs)
+                //{
+                //    CheckBox wrongBox = new CheckBox()
+                //    {
+                //        Content = i,                        
+                //    };
+                //    StackMain.Children.Add(wrongBox);
+                //}
             }
             else
             {
@@ -219,6 +235,8 @@ namespace SimpleTingXie
             voices = null;
             wordsRefer = "Oops!程序出现了亿些问题";
             voicesIndex = 0;
+
+            StackWrongs.Children.Clear();
 
             BackButton.IsEnabled = this.Frame.CanGoBack;
             BlockWords.Text = "正在初始化......";

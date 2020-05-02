@@ -15,7 +15,7 @@
                 x:Name="BackButton"
                 Click="Back_Click"
                 />
-        <StackPanel>
+        <StackPanel x:Name="StackMain">
             <TextBlock Text="当前没有词语.共0个词语."
                        HorizontalAlignment="Center"
                        
@@ -63,6 +63,11 @@
                        TextWrapping="Wrap">
 
             </TextBlock>
+            <TextBlock x:Name="WrongWordTip"
+                       Visibility="Collapsed"
+                       Text="勾选写错的词以添加到错题簿"
+                       ></TextBlock>
+            <StackPanel x:Name="StackWrongs"></StackPanel>
             <Button x:Name="ButtonReturn"
                     Content="退出听写"
                     HorizontalAlignment="Stretch"
