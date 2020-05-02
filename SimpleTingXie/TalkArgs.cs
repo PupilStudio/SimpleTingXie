@@ -8,5 +8,6 @@
         public bool DisableRepeat, DisableBackward;
         public bool AutoNext;
         public int AutoNextSeconds;
+        public bool RandomSort;
     }
 }

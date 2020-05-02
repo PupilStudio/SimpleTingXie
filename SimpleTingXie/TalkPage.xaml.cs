@@ -18,6 +18,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
 using System.Net.Http;
+using System.Text;
 using System.Net.NetworkInformation;
 using Windows.UI.Popups;
 using System.Data;
@@ -43,16 +44,37 @@ namespace SimpleTingXie
         bool autoNext;
         bool disableRepeat, disableGoback;
         int secs;
+        bool randSort;
 
         void Delay(long millSecond)
         {
             long end = System.DateTime.UtcNow.Millisecond + millSecond;
             while (System.DateTime.UtcNow.Millisecond < end) ;
         }
+
+        
         async Task<bool> ProcessTTSAPI(TalkArgs args)
         {
             wordsRefer = args.Words;
             string[] vs = args.Words.Split(' ');
+
+            if (randSort)
+            {
+                Random r = new Random();
+                int rndCnt = r.Next(10, 101);
+                for (int k = 0; k != rndCnt; ++k)
+                {
+                    int a = r.Next(0, vs.Length),
+                        b = r.Next(0, vs.Length);
+                    string t = vs[a];
+                    vs[a] = vs[b];
+                    vs[b] = t;
+                }
+            }
+
+            wordsRefer = string.Join(" ", vs);
+
+
             //Baidu.Aip.Speech.TtsResponse[] resps = new Baidu.Aip.Speech.TtsResponse[0];
             voices = new List<string>();
             voicesIndex = 0;
@@ -202,6 +224,7 @@ namespace SimpleTingXie
             BlockWords.Text = "正在初始化......";
             ButtonStop.IsEnabled =
             ButtonNext.IsEnabled = ButtonPrev.IsEnabled = ButtonRepeat.IsEnabled = false;
+            randSort = ((TalkArgs)e.Parameter).RandomSort;
             await ProcessTTSAPI((TalkArgs)e.Parameter);
             ButtonStop.IsEnabled =
             ButtonNext.IsEnabled = ButtonPrev.IsEnabled = ButtonRepeat.IsEnabled = true;
@@ -209,7 +232,7 @@ namespace SimpleTingXie
             disableRepeat = ((TalkArgs)e.Parameter).DisableRepeat;
             disableGoback = ((TalkArgs)e.Parameter).DisableBackward;
             autoNext = ((TalkArgs)e.Parameter).AutoNext;
-            secs = ((TalkArgs)e.Parameter).AutoNextSeconds;
+            secs = ((TalkArgs)e.Parameter).AutoNextSeconds;            
 
             InitAutoNextTimers();
             InitUI();

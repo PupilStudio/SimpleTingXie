@@ -26,7 +26,7 @@ namespace SimpleTingXie
         public MainPage()
         {
             this.InitializeComponent();
-            ApplicationView.PreferredLaunchViewSize = new Size(300, 500);
+            ApplicationView.PreferredLaunchViewSize = new Size(300, 300);
 
             ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.PreferredLaunchViewSize;
 
@@ -54,13 +54,14 @@ namespace SimpleTingXie
             args.AutoNext = ((CheckEnableAutoNext.IsChecked == null
                 ? false
                 : (bool)(CheckEnableAutoNext.IsChecked)));
+            args.RandomSort = ((CheckRandomSort.IsChecked == null
+                ? false
+                : (bool)(CheckRandomSort.IsChecked)));
 
             if (!int.TryParse(this.TextAutoNextTimes.Text, out args.AutoNextSeconds) || args.Speed < 1)
             {
                 args.AutoNextSeconds = 20;
-            }
-
-            
+            }            
 
             Frame.Navigate(typeof(TalkPage), args);
         }
