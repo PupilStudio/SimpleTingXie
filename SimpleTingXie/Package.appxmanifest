@@ -9,7 +9,7 @@
   <Identity
     Name="076d6690-6d9b-4704-ac1d-0b181622387f"
     Publisher="CN=PupilStudio"
-    Version="0.2.4.0" />
+    Version="1.0.13.0" />
 
   <mp:PhoneIdentity PhoneProductId="076d6690-6d9b-4704-ac1d-0b181622387f" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 

@@ -26,7 +26,7 @@ namespace SimpleTingXie
         public MainPage()
         {
             this.InitializeComponent();
-            ApplicationView.PreferredLaunchViewSize = new Size(300, 300);
+            ApplicationView.PreferredLaunchViewSize = new Size(300, 500);
 
             ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.PreferredLaunchViewSize;
 
